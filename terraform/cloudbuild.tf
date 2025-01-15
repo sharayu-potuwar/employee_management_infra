@@ -48,3 +48,17 @@ resource "google_cloudbuildv2_repository" "my_repository" {
       parent_connection = google_cloudbuildv2_connection.my_connection.name
       remote_uri = "https://github.com/sharayu-potuwar/employee_management_app.git"
   }
+
+//Creating trigger
+resource "google_cloudbuild_trigger" "repo-trigger" {
+  location = "us-central1"
+
+  repository_event_config {
+    repository = google_cloudbuildv2_repository.my_repository.id
+    push {
+      branch = "main"
+    }
+  }
+
+  filename = "cloudbuild.yaml"
+}

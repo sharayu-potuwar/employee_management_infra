@@ -41,7 +41,7 @@ resource "google_cloudbuildv2_connection" "my_connection" {
     depends_on = [google_secret_manager_secret_iam_policy.policy]
 }
 
-# data "google_project" "project" {}
+
 //Connecting a GitHub repository
 resource "google_cloudbuildv2_repository" "my_repository" {
       project = "gcp-devops-436118"
@@ -54,34 +54,38 @@ resource "google_cloudbuildv2_repository" "my_repository" {
 
 
 //Service aaccount 
-# resource "google_service_account" "cloudbuild_service_account" {
-#   account_id = "cloudbuild-sa"
-# }
+resource "google_service_account" "cloudbuild_service_account" {
+  account_id = "cloudbuild-sa"
+}
 
-# resource "google_project_iam_member" "act_as" {
-#   project = data.google_project.project.project_id
-#   role    = "roles/iam.serviceAccountUser"
-#   member  = "serviceAccount:${google_service_account.cloudbuild_service_account.email}"
-# }
+resource "google_project_iam_member" "act_as" {
+  project = "gcp-devops-436118"
+  role    = "roles/iam.serviceAccountUser"
+  member  = "serviceAccount:${google_service_account.cloudbuild_service_account.email}"
+}
 
-# resource "google_project_iam_member" "logs_writer" {
-#   project = data.google_project.project.project_id
-#   role    = "roles/logging.logWriter"
-#   member  = "serviceAccount:${google_service_account.cloudbuild_service_account.email}"
-# }
+resource "google_project_iam_member" "logs_writer" {
+  project = "gcp-devops-436118"
+  role    = "roles/logging.logWriter"
+  member  = "serviceAccount:${google_service_account.cloudbuild_service_account.email}"
+}
 
 //trigger
-# resource "google_cloudbuild_trigger" "service-account-trigger" {
-#   trigger_template {
-#     branch_name = "main"
-#     repo_name   = google_cloudbuildv2_repository.my_repository.name
-#   }
+resource "google_cloudbuild_trigger" "repo-trigger" {
+  name = "cloud-build-trigger"
+  project = "gcp-devops-436118"
+  location = "us-central1"
+  repository_event_config {
+    repository = google_cloudbuildv2_repository.my_repository.id
+    push {
+      branch = "main"
+    }
+  }
 
-#   service_account = google_service_account.cloudbuild_service_account.id
-#   filename        = "cloudbuild.yaml"
-#   depends_on = [
-#     google_project_iam_member.act_as,
-#     google_project_iam_member.logs_writer
-#   ]
-# }
-
+  service_account = google_service_account.cloudbuild_service_account.id
+  filename        = "cloudbuild.yaml"
+  depends_on = [
+    google_project_iam_member.act_as,
+    google_project_iam_member.logs_writer
+  ]
+}

@@ -41,7 +41,7 @@ resource "google_cloudbuildv2_connection" "my_connection" {
     depends_on = [google_secret_manager_secret_iam_policy.policy]
 }
 
-
+data "google_project" "project" {}
 //Connecting a GitHub repository
 resource "google_cloudbuildv2_repository" "my_repository" {
       project = "gcp-devops-436118"

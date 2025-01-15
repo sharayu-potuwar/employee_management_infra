@@ -40,3 +40,11 @@ resource "google_cloudbuildv2_connection" "my_connection" {
     }
     depends_on = [google_secret_manager_secret_iam_policy.policy]
 }
+//Connecting a GitHub repository
+resource "google_cloudbuildv2_repository" "my_repository" {
+      project = "gcp-devops-436118"
+      location = "us-central1"
+      name = "employee_management_app"
+      parent_connection = google_cloudbuildv2_connection.my_connection.name
+      remote_uri = "https://github.com/sharayu-potuwar/employee_management_app.git"
+  }

@@ -16,7 +16,7 @@ resource "google_secret_manager_secret_version" "github_token_secret_version" {
 data "google_iam_policy" "serviceagent_secretAccessor" {
     binding {
         role = "roles/secretmanager.secretAccessor"
-        members = ["serviceAccount:service-gcp-devops-436118@gcp-sa-cloudbuild.iam.gserviceaccount.com"]
+        members = ["serviceAccount:service-268852292565@gcp-sa-cloudbuild.iam.gserviceaccount.com"]
     }
 }
 

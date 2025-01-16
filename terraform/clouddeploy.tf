@@ -21,7 +21,7 @@ resource "google_project_iam_member" "clouddeploy_containerdev" {
 
 resource "google_clouddeploy_target" "primary" {
   location = "us-central1"
-  name     = "target"
+  name     = "gketarget"
 
 #   deploy_parameters = {
 #     deployParameterKey = "deployParameterValue"
@@ -55,7 +55,7 @@ resource "google_clouddeploy_target" "primary" {
 }
 
 
-resource "google_clouddeploy_delivery_pipeline" "primary" {
+resource "google_clouddeploy_delivery_pipeline" "primary_pipeline" {
   location    = "us-west1"
   name        = "pipeline"
   description = "This delivery pipeline for employee application"

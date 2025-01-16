@@ -72,7 +72,7 @@ resource "google_clouddeploy_delivery_pipeline" "primary_pipeline" {
     #   }
 
     #   profiles  = ["example-profile-one", "example-profile-two"]
-      target_id = google_clouddeploy_target.primary.id
+      target_id = google_clouddeploy_target.primary.name
     }
 
      }

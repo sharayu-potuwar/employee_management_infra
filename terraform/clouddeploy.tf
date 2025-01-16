@@ -8,13 +8,24 @@ resource "google_project_iam_member" "assume_as" {
   member  = "serviceAccount:${google_service_account.clouddeploy_service_account.email}"
 }
 
+resource "google_project_iam_member" "clouddeploy_jobrunner" {
+  project = "gcp-devops-436118"
+  role    = "roles/clouddeploy.jobRunner"
+  member  = "serviceAccount:${google_service_account.clouddeploy_service_account.email}"
+}
+resource "google_project_iam_member" "clouddeploy_containerdev" {
+  project = "gcp-devops-436118"
+  role    = "roles/container.developer"
+  member  = "serviceAccount:${google_service_account.clouddeploy_service_account.email}"
+}
+
 resource "google_clouddeploy_target" "primary" {
   location = "us-central1"
   name     = "target"
 
-  deploy_parameters = {
-    deployParameterKey = "deployParameterValue"
-  }
+#   deploy_parameters = {
+#     deployParameterKey = "deployParameterValue"
+#   }
 
   description = "This is the cluster for employee app"
 
@@ -40,5 +51,6 @@ resource "google_clouddeploy_target" "primary" {
 
 #     my_second_label = "example-label-2"
 #   }
+    depends_on = [ google_container_cluster.primary ]
 }
 

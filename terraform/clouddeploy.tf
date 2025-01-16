@@ -19,7 +19,7 @@ resource "google_clouddeploy_target" "primary" {
   description = "This is the cluster for employee app"
 
   gke {
-    cluster =  google_container_cluster.primary.name
+    cluster =  "projects/gcp-devops-436118/locations/us-central1/clusters/my-gke-cluster"
   }
 
   project          = "gcp-devops-436118"

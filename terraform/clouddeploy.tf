@@ -2,7 +2,7 @@ resource "google_service_account" "clouddeploy_service_account" {
   account_id = "clouddeploy-sa"
 }
 
-resource "google_project_iam_member" "act_as" {
+resource "google_project_iam_member" "assume_as" {
   project = "gcp-devops-436118"
   role    = "roles/iam.serviceAccountUser"
   member  = "serviceAccount:${google_service_account.clouddeploy_service_account.email}"

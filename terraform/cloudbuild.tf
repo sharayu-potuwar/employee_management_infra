@@ -70,9 +70,16 @@ resource "google_project_iam_member" "logs_writer" {
   member  = "serviceAccount:${google_service_account.cloudbuild_service_account.email}"
 }
 
+
 resource "google_project_iam_member" "artifact_access" {
   project = "gcp-devops-436118"
   role    = "roles/artifactregistry.writer"
+  member  = "serviceAccount:${google_service_account.cloudbuild_service_account.email}"
+}
+
+resource "google_project_iam_member" "kubeengine_role" {
+  project = "gcp-devops-436118"
+  role    = "roles/roles/container.developer"
   member  = "serviceAccount:${google_service_account.cloudbuild_service_account.email}"
 }
 
